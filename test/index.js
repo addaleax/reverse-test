@@ -23,7 +23,7 @@ describe('reverse-test', function() {
       cwd: rFixture
     }).on('exit', function(code) {
       assert.strictEqual(code, 0);
-      
+
       cp.spawn('git', ['add', '.'], {
         stdio: 'inherit',
         cwd: rFixture
