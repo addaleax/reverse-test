@@ -11,16 +11,19 @@ var argv = require('yargs')
   .argv;
 
 var fs = require('fs');
+var rimraf = require('rimraf');
 var reverseTest = require('..');
 
 var packageJSON = JSON.parse(fs.readFileSync('package.json', {
   encoding: 'utf8'
 }));
 
+var basedir = reverseTest.defaultBasedir;
 reverseTest({
   name: packageJSON.name,
   installspec: process.cwd(),
-  count: argv.count
+  count: argv.count,
+  basedir: basedir
 }, function(err, results) {
   if (err) throw err;
 
@@ -34,8 +37,12 @@ reverseTest({
   results.forEach(function(r) {
     if (r.err) {
       console.log('Test for', r.name, 'failed:');
-      console.log(r.err);
+      console.log(r.err.message);
       process.exitCode = 1;
     }
   });
+
+  if (process.exitCode === 0) {
+    rimraf.sync(basedir);
+  }
 });

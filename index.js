@@ -116,7 +116,7 @@ function reverseTestSinglePackage(name, opts, callback) {
     }
 
     var spawn = opts.spawn || child_process.spawn;
-    var basedir = opts.basedir || 'reverse_test_modules';
+    var basedir = opts.basedir || module.exports.defaultBasedir;
     var cwd = path.join(basedir, name)
     rimraf(cwd, function(err) {
       if (err) return callback(err);
@@ -167,3 +167,4 @@ function fullReverseTest(opts, callback) {
 
 module.exports = fullReverseTest;
 module.exports.singlePackage = reverseTestSinglePackage;
+module.exports.defaultBasedir = 'reverse_test_modules';
