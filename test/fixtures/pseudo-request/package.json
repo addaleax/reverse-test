@@ -1,0 +1,21 @@
+{
+  "name": "request",
+  "repository": {
+    "type": "git",
+    "url": "..."
+  },
+  "dist-tags": { "latest": "2.74.0" },
+  "versions": {
+    "2.74.0": {
+      "scripts": {
+        "test": "node index.js"
+      }
+    }
+  },
+  "dependencies": {
+    "bl": "^1.1.2"
+  },
+  "scripts": {
+    "test": "node index.js"
+  }
+}
