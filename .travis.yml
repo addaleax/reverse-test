@@ -9,3 +9,6 @@ after_success:
   - npm install coveralls
   - nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
 sudo: false
+before_install:
+  - git config --global user.email "reverse-test@localhost"
+  - git config --global user.name "reverse-test"
