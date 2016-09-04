@@ -2,13 +2,16 @@
 'use strict';
 
 var argv = require('yargs')
-  .option('c', {
-    alias: 'count',
-    default: 5,
-    describe: 'Number of dependents to test',
-    type: 'number'
-  })
-  .argv;
+     .usage('Usage: $0 [options] [packages...]')
+    .option('c', {
+      alias: 'count',
+      default: 5,
+      describe: 'Number of dependents to test if no packages are passed',
+      type: 'number'
+    })
+    .help('h')
+    .alias('h', 'help')
+    .argv;
 
 var fs = require('fs');
 var rimraf = require('rimraf');
@@ -19,12 +22,21 @@ var packageJSON = JSON.parse(fs.readFileSync('package.json', {
 }));
 
 var basedir = reverseTest.defaultBasedir;
-reverseTest({
+
+var opts = {
   name: packageJSON.name,
   installspec: process.cwd(),
   count: argv.count,
   basedir: basedir
-}, function(err, results) {
+};
+
+if (argv._.length === 0) {
+  reverseTest(opts, next);
+} else {
+  reverseTest.list(opts, argv._, next);
+}
+
+function next(err, results) {
   if (err) throw err;
 
   process.exitCode = 0;
@@ -45,4 +57,4 @@ reverseTest({
   if (process.exitCode === 0) {
     rimraf.sync(basedir);
   }
-});
+}

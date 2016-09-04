@@ -161,20 +161,27 @@ function reverseTestSinglePackage(name, opts, callback) {
   });
 }
 
+function reverseTestList(opts, list, callback) {
+  async.mapSeries(list, function(p, cb) {
+    reverseTestSinglePackage(p, extend({
+      reversedPackages: [
+        { name: opts.name, installspec: opts.installspec }
+      ]
+    }, opts), cb);
+  }, callback);
+}
+
 function fullReverseTest(opts, callback) {
   getTopDependents(extend({ package: opts.name }, opts), function(err, result) {
     if (err) return callback(err);
 
-    async.mapSeries(result, function(p, cb) {
-      reverseTestSinglePackage(p.package, extend({
-        reversedPackages: [
-          { name: opts.name, installspec: opts.installspec }
-        ]
-      }, opts), cb);
-    }, callback);
+    reverseTestList(opts,
+                    result.map(function(p) { return p.package; }),
+                    callback);
   });
 }
 
 module.exports = fullReverseTest;
+module.exports.list = reverseTestList;
 module.exports.singlePackage = reverseTestSinglePackage;
 module.exports.defaultBasedir = 'reverse_test_modules';
