@@ -125,10 +125,20 @@ function reverseTestSinglePackage(name, opts, callback) {
         if (err) return callback(err);
 
         var repo = result.repository.replace(/^git\+/, '');
-        spawn('git', ['clone', repo, cwd], { stdio: 'inherit' })
+        spawn('git', ['clone', repo, cwd], {
+          stdio: 'inherit',
+          env: extend({}, process.env, { GIT_TERMINAL_PROMPT: 0 })
+        })
           .on('exit', function(code, signal) {
-            if (code !== 0)
-              return callback(new Error('error cloning ' + result.repository));
+            if (code !== 0) {
+              var err = new Error('error cloning ' + result.repository);
+              err.fatal = false;
+              return callback(null, {
+                name: name,
+                status: 'skipped',
+                err: err
+              });
+            }
 
             runTests(cwd, name, spawn, opts, function(err) {
               if (err) {
