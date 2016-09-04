@@ -14,7 +14,7 @@
     "nyc": "^8.1.0"
   },
   "name": "reverse-test",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Test your package’s dependents!",
   "main": "index.js",
   "bin": {
