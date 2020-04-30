@@ -13,3 +13,11 @@ npm install -g reverse-test
 cd /path/to/my/project
 reverse-test -c 3
 ```
+
+Or specify a list of dependent packages to test:
+
+```sh
+npm install -g reverse-test
+cd /path/to/my/project
+reverse-test dependent-package-1 dependent-package-2 ...
+```
