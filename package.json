@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "async": "^2.0.1",
-    "bl": "^1.1.2",
+    "bl": "^4.0.3",
     "extend": "^3.0.0",
     "mkdirp": "^0.5.1",
     "npm-get-top-dependents": "^1.0.0",
